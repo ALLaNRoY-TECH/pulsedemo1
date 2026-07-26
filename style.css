@@ -1253,11 +1253,69 @@ body {
   font-size: 12px;
 }
 
-/* Footer */
-footer {
-  padding: 30px 4vw;
-  border-top: 1px solid rgba(160, 224, 255, 0.15);
+/* Site Footer & Integrated Google Map */
+.site-footer {
   background: #020610;
+  border-top: 1px solid rgba(160, 224, 255, 0.15);
+}
+
+.footer-map-section {
+  padding: 80px 8vw;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 5vw;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  background: radial-gradient(circle at 10% 50%, rgba(11, 41, 77, 0.4) 0%, transparent 60%);
+}
+
+.footer-map-info h2 {
+  font-size: clamp(48px, 6vw, 84px);
+  margin: 16px 0 24px;
+}
+
+.footer-map-info h2 em {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--cyan);
+  font-style: normal;
+}
+
+.address-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #c4d7e8;
+  margin-bottom: 28px;
+}
+
+.address-text strong {
+  color: var(--cyan);
+  font-size: 18px;
+}
+
+.map-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.footer-map-frame {
+  height: 380px;
+  border: 1px solid var(--line-strong);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(43, 169, 255, 0.15);
+  background: #061020;
+}
+
+.footer-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  filter: invert(90%) hue-rotate(180deg) contrast(1.1) saturate(1.2);
+}
+
+.footer-bottom {
+  padding: 30px 8vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1266,9 +1324,19 @@ footer {
   color: #8298ab;
 }
 
-footer > div {
+.footer-socials {
   display: flex;
-  gap: 15px;
+  gap: 20px;
+}
+
+.footer-socials a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-socials a:hover {
+  color: #fff;
 }
 
 /* Lightbox & Dialog Modals */
@@ -1622,7 +1690,17 @@ dialog button#closeLightbox {
     display: none;
   }
 
-  footer {
+  .footer-map-section {
+    grid-template-columns: 1fr;
+    padding: 60px 6vw;
+    gap: 35px;
+  }
+
+  .footer-map-frame {
+    height: 280px;
+  }
+
+  .footer-bottom {
     padding: 25px 6vw;
     gap: 18px;
     align-items: flex-start;
