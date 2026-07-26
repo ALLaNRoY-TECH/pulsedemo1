@@ -6,13 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
 
-  // 1. Page Loader
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const loader = $('#pageLoader');
-      if (loader) loader.classList.add('done');
-    }, 800);
-  });
+  // 1. Page Intro Loader (Displays for 3.5 seconds, allowing hover interaction)
+  const loader = $('#pageLoader');
+  if (loader) {
+    const hideTimer = setTimeout(() => {
+      loader.classList.add('done');
+    }, 3500);
+
+    // Allow user to click to dismiss intro immediately
+    loader.addEventListener('click', () => {
+      clearTimeout(hideTimer);
+      loader.classList.add('done');
+    });
+  }
 
   // 2. Custom Cursor Movement & Ring Expand
   const dot = $('.cursor-dot');
@@ -177,5 +183,43 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewTrack.scrollBy({ left: -420, behavior: 'smooth' });
       });
     }
+  }
+
+  // 9. Real-Time Dynamic Telemetry Speedometer Animation
+  const speedDisplay = $('.speedometer b');
+  const speedNeedle = $('.speedometer i');
+
+  if (speedDisplay && speedNeedle) {
+    let currentSpeed = 284;
+    let targetSpeed = 284;
+
+    function pickNextTarget() {
+      // Fluctuate target speed dynamically between 195 and 318 KM/H
+      targetSpeed = Math.floor(195 + Math.random() * 123);
+      const nextInterval = 1200 + Math.random() * 2000;
+      setTimeout(pickNextTarget, nextInterval);
+    }
+    pickNextTarget();
+
+    function updateSpeedometer() {
+      // Smooth interpolation towards target speed with slight micro-jitter
+      const diff = targetSpeed - currentSpeed;
+      currentSpeed += diff * 0.045 + (Math.random() * 1.2 - 0.6);
+      
+      // Clamp boundaries
+      if (currentSpeed < 140) currentSpeed = 140;
+      if (currentSpeed > 330) currentSpeed = 330;
+
+      const roundedSpeed = Math.round(currentSpeed);
+      speedDisplay.textContent = roundedSpeed;
+
+      // Map speed to needle rotation (-45 deg to 115 deg)
+      const angle = -45 + ((currentSpeed - 140) / 190) * 160;
+      speedNeedle.style.transform = `rotate(${angle.toFixed(1)}deg)`;
+
+      requestAnimationFrame(updateSpeedometer);
+    }
+
+    updateSpeedometer();
   }
 });

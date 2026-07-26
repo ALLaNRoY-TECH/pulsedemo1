@@ -81,51 +81,78 @@ body {
   opacity: 0.16;
 }
 
-/* Fullscreen Loader */
+/* Fullscreen Intro Preloader Screen */
 .loader {
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   inset: 0;
   background: #020613;
   display: flex;
   flex-direction: column;
-  gap: 18px;
   align-items: center;
   justify-content: center;
-  font: 11px var(--font-mono);
-  letter-spacing: 2px;
-  transition: opacity 0.7s var(--ease-out), visibility 0.7s var(--ease-out);
+  text-align: center;
+  padding: 0 4vw;
+  transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+  user-select: none;
 }
 
 .loader.done {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
-.loader-mark {
-  font: 900 64px var(--font-heading);
-  letter-spacing: -4px;
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.loader-title {
+  font-family: var(--font-heading);
+  font-size: clamp(42px, 8vw, 120px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: -2px;
+  line-height: 0.9;
+  margin: 0;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), text-shadow 0.4s ease, color 0.4s ease;
+}
+
+.loader-title span {
+  display: inline-block;
+  color: #ffffff;
+  transition: color 0.4s ease;
+}
+
+.loader:hover .loader-title,
+.loader-title:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 40px rgba(101, 230, 255, 0.8), 0 0 80px rgba(43, 169, 255, 0.6);
+}
+
+.loader:hover .loader-title span,
+.loader-title:hover span {
   color: var(--cyan);
-  text-shadow: 0 0 35px var(--blue);
 }
 
-.load-line {
-  height: 2px;
-  width: 180px;
-  background: #122342;
+.loader-subtitle {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--cyan);
+  margin: 10px 0 0;
+  opacity: 0.75;
+  transition: opacity 0.3s ease, letter-spacing 0.3s ease;
 }
 
-.load-line i {
-  display: block;
-  width: 0;
-  height: 100%;
-  background: var(--cyan);
-  box-shadow: 0 0 15px var(--blue);
-  animation: load 1.5s forwards;
-}
-
-@keyframes load {
-  to { width: 100%; }
+.loader:hover .loader-subtitle {
+  opacity: 1;
+  letter-spacing: 6px;
 }
 
 /* Navigation */
@@ -135,14 +162,15 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 26px 4vw;
+  padding: 22px 5vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  font: 11px var(--font-mono);
-  letter-spacing: 1.3px;
-  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(3, 8, 21, 0.65);
+  font: 13px var(--font-mono);
+  letter-spacing: 1.5px;
+  backdrop-filter: blur(12px);
 }
 
 .brand {
@@ -150,51 +178,58 @@ body {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
+  gap: 12px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
 }
 
 .brand b {
   display: block;
   color: var(--blue);
-  font-size: 7px;
-  letter-spacing: 2.2px;
+  font-size: 8px;
+  letter-spacing: 2.5px;
   margin-top: 2px;
 }
 
 .brand-mark {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
   background: var(--blue);
   color: #021021;
-  font: 800 22px var(--font-heading);
+  font: 800 24px var(--font-heading);
   clip-path: polygon(0 0, 100% 0, 100% 73%, 73% 100%, 0 100%);
+  box-shadow: 0 0 15px rgba(43, 169, 255, 0.5);
 }
 
 .nav nav.nav-links {
   display: flex;
-  gap: 32px;
+  gap: 36px;
 }
 
 .nav nav a {
-  color: #c3d6e6;
+  color: #eaf7ff;
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  letter-spacing: 1.5px;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 .nav nav a:hover {
   color: var(--cyan);
+  text-shadow: 0 0 12px var(--cyan);
 }
 
 .nav-cta {
   color: var(--cyan);
+  font-size: 13px;
+  font-weight: 700;
   text-decoration: none;
-  border: 1px solid var(--line);
-  padding: 11px 15px;
+  border: 1px solid var(--line-strong);
+  padding: 12px 18px;
   transition: var(--transition-smooth);
 }
 
@@ -202,11 +237,12 @@ body {
   background: var(--cyan);
   color: var(--ink);
   border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(101, 230, 255, 0.4);
 }
 
 .nav-cta i {
   font-style: normal;
-  font-size: 15px;
+  font-size: 16px;
   margin-left: 6px;
 }
 
@@ -830,6 +866,7 @@ body {
   transform: rotate(44deg);
   transform-origin: bottom;
   box-shadow: 0 0 8px var(--cyan);
+  transition: transform 0.08s ease-out;
 }
 
 .sim-label {
